@@ -193,6 +193,7 @@ XtLightbox.Renderer.Lightbox = new Class({
 				x: this.elWrapper.getStyle('width').toInt(),
 				y: this.elWrapper.getStyle('height').toInt()
 			};
+			if (isNaN(elBox.x) || isNaN(elBox.y)) elBox = this.elWrapper.getSize();
 			var fY = this.elFooter.getSize().y;
 			this.elFooter.setStyle('display', 'none');
 			elSize = {
@@ -203,7 +204,7 @@ XtLightbox.Renderer.Lightbox = new Class({
 				width: elSize.x,
 				left: Math.round((winSize.x - elSize.x) / 2)
 			};
-			if (size.y != this.elContent.getStyle('height').toInt()){
+			if (size.y != (this.elContent.getStyle('height').toInt() || this.elContent.getSize().y)){
 				this.resizing = true;
 				this.fxHeight.start(size.y);
 				this.fxTop.start(Math.round((winSize.y - elSize.y) / 2));
@@ -232,7 +233,7 @@ XtLightbox.Renderer.Lightbox = new Class({
 	},
 
 	onHeightChange: function(){
-		if (this._fwopts.width != this.element.getStyle('width').toInt()) {
+		if (this._fwopts.width != (this.element.getStyle('width').toInt() || this.element.getSize().x)){
 			this.resizing = true;
 			this.fxWidth.start(this._fwopts);
 		} else this.onWidthChange();
